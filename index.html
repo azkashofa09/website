@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Year FakeBot</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      animation: changeBackground 2s infinite alternate; /* Animasi perubahan latar belakang */
+      opacity: 0;
+      animation: fadeIn 2s ease-in forwards, changeBackground 10s infinite alternate;
+    }
+
+    /* Animasi fade in untuk body */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Animasi perubahan latar belakang */
+    @keyframes changeBackground {
+      0% {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+      }
+      50% {
+        background: linear-gradient(135deg, #ff512f, #dd2476);
+      }
+      100% {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+      }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      animation: moveAround 5s infinite ease-in-out; /* Animasi bergerak */
+    }
+
+    @keyframes moveAround {
+      0% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(30px);
+      }
+      50% {
+        transform: translateX(0);
+      }
+      75% {
+        transform: translateX(-30px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    .fakebot-container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 450px;
+    }
+
+    .fakebot-container h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .chat-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-box input {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .chat-box input:focus {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .chat-box button {
+      padding: 12px 15px;
+      font-size: 1rem;
+      color: white;
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .chat-box button:hover {
+      background: linear-gradient(135deg, #ff6e40, #f83a85);
+    }
+
+    .fakebot-response {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .fakebot-container {
+        padding: 15px;
+      }
+
+      .chat-box input {
+        font-size: 0.9rem;
+      }
+
+      .chat-box button {
+        font-size: 0.9rem;
+      }
+
+      .fakebot-response {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .fakebot-container {
+        padding: 10px;
+      }
+
+      .chat-box input {
+        font-size: 0.8rem;
+        padding: 8px;
+      }
+
+      .chat-box button {
+        font-size: 0.8rem;
+        padding: 10px;
+      }
+
+      .fakebot-response {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy New Year 2025! 🎆</h1>
+  <div class="fakebot-container">
+    <h2>🤖</h2>
+    <div class="chat-box">
+      <input id="userInput" type="text" placeholder="Tanyakan tentang tahun baru...">
+      <button onclick="getFakeBotResponse()">Kirim</button>
+    </div>
+    <div class="fakebot-response" id="fakebotResponse"></div>
+  </div>
+
+  <script>
+    const newYearResponses = [
+      "🎉 Tahun baru akan penuh keberuntungan untukmu!",
+      "✨ Resolusi akan segera terjadi",
+      "🎆 Jangan lupa merayakan tahun baru dengan semangat!",
+      "🎊 2024 adalah tahun penuh kesempatan baru!",
+      "🌟 Tahun ini adalah waktu terbaik untuk memulai sesuatu yang baru!"
+    ];
+
+    function getFakeBotResponse() {
+      const userInput = document.getElementById("userInput");
+      const responseBox = document.getElementById("fakebotResponse");
+
+      if (!userInput.value.trim()) {
+        responseBox.textContent = "🤖 Tolong ajukan pertanyaan tentang tahun baru!";
+      } else if (userInput.value.toLowerCase().includes("tahun baru") || userInput.value.includes("2025")) {
+        const randomResponse = newYearResponses[Math.floor(Math.random() * newYearResponses.length)];
+        responseBox.textContent = randomResponse;
+      } else {
+        responseBox.textContent = "🤖 Saya hanya bisa menjawab pertanyaan seputar tahun baru!";
+      }
+
+      // Menampilkan respons dan menghapus input setelah 5 detik
+      responseBox.style.opacity = "1";
+
+      // Setelah 5 detik, hilangkan input dan jawaban
+      setTimeout(() => {
+        userInput.value = ""; // Menghapus input
+        responseBox.textContent = ""; // Menghapus jawaban
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
